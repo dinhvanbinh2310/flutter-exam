@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'database/database_helper.dart';
+import 'screens/password_reset_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -258,20 +259,18 @@ class _LoginScreenState extends State<LoginScreen>
                                 return null;
                               },
                             ),
-                            SizedBox(height: 16),
+                            SizedBox(height: 12),
 
-                            // Quên mật khẩu
+                            // Forgot password link
                             Align(
                               alignment: Alignment.centerRight,
                               child: TextButton(
                                 onPressed: () {
-                                  // Xử lý quên mật khẩu
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Tính năng đang phát triển',
-                                      ),
-                                      behavior: SnackBarBehavior.floating,
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => PasswordResetScreen(),
                                     ),
                                   );
                                 },
@@ -279,14 +278,14 @@ class _LoginScreenState extends State<LoginScreen>
                                   'Quên mật khẩu?',
                                   style: TextStyle(
                                     color: Color(0xFF667eea),
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(height: 24),
+                            SizedBox(height: 30),
 
-                            // Nút đăng nhập
+                            // Login button
                             SizedBox(
                               width: double.infinity,
                               height: 50,
@@ -297,141 +296,104 @@ class _LoginScreenState extends State<LoginScreen>
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
                                   ),
-                                  elevation: 5,
                                 ),
                                 child:
                                     _isLoading
-                                        ? SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                                  Colors.white,
-                                                ),
-                                          ),
+                                        ? CircularProgressIndicator(
+                                          color: Colors.white,
                                         )
                                         : Text(
                                           'Đăng nhập',
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.white,
                                           ),
                                         ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 32),
+                            SizedBox(height: 20),
 
-                    // Đăng nhập bằng mạng xã hội
-                    Text(
-                      'Hoặc đăng nhập bằng',
-                      style: TextStyle(color: Colors.white70, fontSize: 14),
-                    ),
-                    SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _buildSocialButton(Icons.g_mobiledata, Colors.red, () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Đăng nhập Google'),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                        }),
-                        SizedBox(width: 16),
-                        _buildSocialButton(Icons.facebook, Colors.blue, () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Đăng nhập Facebook'),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                    SizedBox(height: 32),
-
-                    // Đăng ký
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Chưa có tài khoản? ',
-                          style: TextStyle(color: Colors.white70, fontSize: 14),
-                        ),
-                        TextButton(
-                          onPressed: _navigateToRegister,
-                          child: Text(
-                            'Đăng ký ngay',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 20),
-
-                    // Contact Information
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(0.2),
-                          width: 1,
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            'Thêm thông tin chi tiết',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Liên hệ ngay',
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                          ),
-                          SizedBox(height: 12),
-                          ElevatedButton(
-                            onPressed: () async {
-                              const url = 'https://utc2.edu.vn/';
-                              if (await canLaunch(url)) {
-                                await launch(url);
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Không thể mở trang web'),
-                                    backgroundColor: Colors.red,
+                            // Register link
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Chưa có tài khoản?'),
+                                TextButton(
+                                  onPressed: _navigateToRegister,
+                                  child: Text(
+                                    'Đăng ký ngay',
+                                    style: TextStyle(
+                                      color: Color(0xFF667eea),
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                );
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              foregroundColor: Color(0xFF667eea),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+
+                            // Contact Information
+                            Container(
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Colors.white.withOpacity(0.2),
+                                  width: 1,
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Thêm thông tin chi tiết',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    'Liên hệ ngay',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  SizedBox(height: 12),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      const url = 'https://utc2.edu.vn/';
+                                      if (await canLaunch(url)) {
+                                        await launch(url);
+                                      } else {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Không thể mở trang web',
+                                            ),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.white,
+                                      foregroundColor: Color(0xFF667eea),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: Text('Liên hệ ngay'),
+                                  ),
+                                ],
                               ),
                             ),
-                            child: Text('Liên hệ ngay'),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -440,28 +402,6 @@ class _LoginScreenState extends State<LoginScreen>
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildSocialButton(
-    IconData icon,
-    Color color,
-    VoidCallback onPressed,
-  ) {
-    return Container(
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(color: Colors.black26, blurRadius: 8, offset: Offset(0, 4)),
-        ],
-      ),
-      child: IconButton(
-        icon: Icon(icon, color: color, size: 24),
-        onPressed: onPressed,
       ),
     );
   }
